@@ -1,0 +1,23 @@
+Crear imagen
+docker build -t mi-frontend . 
+
+Ejecutar docker
+docker run -d -p 3000:80 mi-frontend
+
+Ver dockers corriendo
+docker ps
+
+Ver todos dockers
+docker ps -a
+
+Detener contenedor
+docker stop <container_id>
+
+Eliminar container
+docker rm <container_id>
+
+Ver img disponibles
+docker images
+
+Eliminar img
+docker rmi <image_id>

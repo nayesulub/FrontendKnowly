@@ -1,0 +1,330 @@
+import React from 'react';
+import styled from 'styled-components';
+import { BookText, BookOpen, Calculator, Beaker, AtomIcon, Globe, Monitor, Landmark } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+
+// Componente principal
+const Cursos = () => {
+  const navigate = useNavigate();
+    const cursosData = [
+      {
+        id: 1,
+        title: "Inglés",
+        description: "Curso intensivo de gramática",
+        ages: "6-11 años",
+        icon: <BookText color="#ffffff" />,
+        iconBg: "#4a7dff",
+        buttonColor: "#ff6b6b"
+      },
+      {
+        id: 2,
+        title: "Español",
+        description: "Curso intensivo de vocabulario",
+        ages: "6-11 años",
+        icon: <BookOpen color="#ffffff" />,
+        iconBg: "#4cd963",
+        buttonColor: "#ff6b6b"
+      },
+      {
+        id: 3,
+        title: "Matemáticas",
+        description: "Curso intensivo de matemáticas ideal",
+        ages: "11-16 años",
+        icon: <Calculator color="#ffffff" />,
+        iconBg: "#9179ff",
+        buttonColor: "#ff6b6b"
+      },
+      {
+        id: 4,
+        title: "Historia",
+        description: "Curso profesional de historia",
+        ages: "12-16 años",
+        icon: <Landmark color="#ffffff" />,
+        iconBg: "#ff6b6b",
+        buttonColor: "#ff6b6b"
+      },
+      {
+        id: 5,
+        title: "Química",
+        description: "Curso profesional de química",
+        ages: "14-16 años",
+        icon: <Beaker color="#ffffff" />,
+        iconBg: "#ff85a2",
+        buttonColor: "#ff6b6b"
+      },
+      {
+        id: 6,
+        title: "Física",
+        description: "Curso intensivo de física",
+        ages: "11-16 años",
+        icon: <AtomIcon color="#ffffff" />,
+        iconBg: "#c278ff",
+        buttonColor: "#ff6b6b"
+      },
+      {
+        id: 7,
+        title: "Geografía",
+        description: "Curso intensivo de geografía",
+        ages: "11-16 años",
+        icon: <Globe color="#ffffff" />,
+        iconBg: "#56c7ff",
+        buttonColor: "#ff6b6b"
+      },
+      {
+        id: 8,
+        title: "Informática",
+        description: "Curso profesional de informática",
+        ages: "12-16 años",
+        icon: <Monitor color="#ffffff" />,
+        iconBg: "#52c0c9",
+        buttonColor: "#ff6b6b"
+      }
+      
+    ];
+  
+    return (
+      <CursosContainer>
+      <Header>
+          <Logo src="././Knowly.png" alt="Knowly" />
+          <Nav>
+            <NavLink href="/">ASIGNATURAS</NavLink>
+            <NavLink href="#">CURSOS</NavLink>
+            <NavLink href="Precios">PRECIOS</NavLink>
+            <NavLink href="Login">ACCEDE</NavLink>
+            <RegisterButton onClick={() => navigate('/registro')}>Registrate</RegisterButton>
+          </Nav>
+        </Header>
+
+       <br></br>
+       <LeftBanner>
+          <BannerImage />
+          <h6>Tenemos grandes promociones para ti!</h6>
+          <p>¿HAMBRE?</p>
+          <BannerButton>SABER MÁS</BannerButton>
+        </LeftBanner>
+  
+        <RightBanner>
+          <BannerImage />
+          <h6>Tenemos grandes promociones para ti!</h6>
+          <p>¿HAMBRE?</p>
+          <BannerButton>SABER MÁS</BannerButton>
+        </RightBanner>
+
+        <CursosHeader>CURSOS</CursosHeader>
+        <CursosGrid>
+          {cursosData.map((curso) => (
+            <CursoCard key={curso.id}>
+              <IconContainer bgColor={curso.iconBg}>
+                {curso.icon}
+              </IconContainer>
+              <CursoTitle>{curso.title}</CursoTitle>
+              <CursoDesc>{curso.description}</CursoDesc>
+              <InscribeButton bgColor={curso.buttonColor} hoverColor="#e74c3c">
+                <span>Inscribirse</span>
+              </InscribeButton>
+            </CursoCard>
+          ))}
+        </CursosGrid>
+    
+      </CursosContainer>
+      
+    );
+  };
+  
+  export default Cursos;
+
+  // Styled Components
+const CursosContainer = styled.div`
+display: flex;
+flex-direction: column;
+width: 100%;
+min-height: 100vh;
+font-family: Arial, sans-serif;
+`;
+
+const Header = styled.header`
+  background: rgb(118, 70, 230);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const Logo = styled.img`
+  height: 60px;
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+`;
+
+const NavLink = styled.a`
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const RegisterButton = styled.button`
+  background: #2fe7ff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.6rem 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #27c4da;
+    transform: translateY(-2px);
+  }
+`;
+
+const CursosHeader = styled.h1`
+color: #344a88;
+text-align: center;
+font-size: 32px;
+margin-bottom: 40px;
+font-weight: bold;
+`;
+
+const CursosGrid = styled.div`
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 20px;
+margin: 0 auto;
+
+@media (max-width: 1024px) {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 768px) {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 480px) {
+  grid-template-columns: 1fr;
+}
+`;
+
+const CursoCard = styled.div`
+background-color: #ffffff;
+border-radius: 12px;
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+overflow: hidden;
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 30px 20px;
+transition: transform 0.3s ease;
+
+&:hover {
+  transform: translateY(-5px);
+}
+`;
+
+const IconContainer = styled.div`
+background-color: ${props => props.bgColor || '#e9f7ff'};
+width: 60px;
+height: 60px;
+border-radius: 12px;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-bottom: 15px;
+`;
+
+const CursoTitle = styled.h3`
+color: #2c3e50;
+font-size: 18px;
+font-weight: 600;
+margin-bottom: 10px;
+text-align: center;
+`;
+
+const CursoDesc = styled.p`
+color: #7f8c8d;
+font-size: 14px;
+text-align: center;
+margin-bottom: 15px;
+line-height: 1.4;
+`;
+
+const InscribeButton = styled.button`
+background-color: ${props => props.bgColor || '#ff6b6b'};
+color: white;
+border: none;
+border-radius: 20px;
+padding: 8px 20px;
+font-size: 14px;
+font-weight: 600;
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 5px;
+transition: background-color 0.3s ease;
+
+&:hover {
+  background-color: ${props => props.hoverColor || '#ff5252'};
+}
+`;
+
+const SideBanner = styled.div`
+position: fixed;
+top: 55%;
+transform: translateY(-50%);
+width: 100px;
+background-color: white;
+box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+border-radius: 15px;
+padding: 6px;
+text-align: center;
+z-index: 10;
+`;
+
+const LeftBanner = styled(SideBanner)`
+left: -1px;
+`;
+
+const RightBanner = styled(SideBanner)`
+right: -1px;
+`;
+
+const BannerImage = styled.div`
+width: 100%;
+height: 280px;
+background-image: url('/././Banner.jpeg');
+background-size: cover;
+background-position: center;
+border-radius: 10px;
+margin-bottom: 10px;
+`;
+
+const BannerButton = styled.button`
+background-color: #3498db;
+color: white;
+border: none;
+padding: 2px 7px;
+border-radius: 8px;
+margin-top: 15px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+
+&:hover {
+  background-color: #2980b9;
+}
+`;
