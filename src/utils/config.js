@@ -21,3 +21,9 @@ export const API_ENDPOINTS = {
   REGISTER: `${API_BASE_URL}/register`,
   LOGIN_GOOGLE: `${API_ROOT_URL}/login/google`,
 };
+
+
+
+
+
+//// pruebas de local
