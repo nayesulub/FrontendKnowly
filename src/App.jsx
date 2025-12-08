@@ -12,7 +12,8 @@ import HomeLog from "./Components/Log/HomeLog";
 import Pago from "./Components/Pago";
 import Ejercicios from "./Components/Log/Ejercicios";
 // 👇 Dashboard lo cargamos en lazy para que, si truena, no mate toda la app
-const Dashboard = lazy(() => import("./Components/Dash/Dashboard"));
+//const Dashboard = lazy(() => import("./Components/Dash/Dashboard"));
+import Dashboard from "./Components/Dash/Dashboard";
 import Gestion from "./Components/Dash/Gestion";
 import Nivel from "./Components/Dash/Nivel";
 import Selec from "./Components/Selec";
@@ -41,6 +42,8 @@ import CrucigramaBiologico from "./Components/Ejercicios/CrucigramaBiologico.jsx
 import LineaTiempo from "./Components/Ejercicios/LineaTiempo.jsx";
 import Categorias from "./Components/Dash/Categorias.jsx";
 import Actividades from "./Components/Actividades.jsx";
+import "./Components/GeneralStyle.css"; // o el archivo donde tengas estas clases
+
 
 function App() {
   return (
