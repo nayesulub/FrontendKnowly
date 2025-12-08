@@ -2,13 +2,12 @@
  * Configuración global de la aplicación
  */
 
-// URL base de la API
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://knowly-vkbg.onrender.com/api';
+// ⚠️ IMPORTANTE: aquí NO debe llevar /api
+export const API_ROOT_URL = import.meta.env.VITE_API_URL || "https://knowly-vkbg.onrender.com";
 
-// URL base sin /api para endpoints como /login/google
-export const API_ROOT_URL = API_BASE_URL.replace('/api', '');
+// Aquí SI le agregamos /api para endpoints
+export const API_BASE_URL = `${API_ROOT_URL}/api`;
 
-// Endpoints de la API
 export const API_ENDPOINTS = {
   ACTIVIDADES: `${API_BASE_URL}/actividades`,
   ASIGNATURAS: `${API_BASE_URL}/asignaturas`,
@@ -17,13 +16,9 @@ export const API_ENDPOINTS = {
   CATEGORIAS_ALL: `${API_BASE_URL}/categorias-all`,
   USUARIOS: `${API_BASE_URL}/usuarios`,
   USER_ADD_POINTS: `${API_BASE_URL}/user/add-points`,
+
   LOGIN: `${API_BASE_URL}/login`,
   REGISTER: `${API_BASE_URL}/register`,
+
   LOGIN_GOOGLE: `${API_ROOT_URL}/login/google`,
 };
-
-
-
-
-
-//// pruebas de local
