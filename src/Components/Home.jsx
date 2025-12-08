@@ -249,6 +249,8 @@ export function Home() {
               <NavLink href="#">ASIGNATURAS</NavLink>
               <NavLink href="Ejercicios">GRADOS</NavLink>
               <NavLink href="precios">PRECIOS</NavLink>
+              {/* 🔥 Nuevo link Dashboard invitado */}
+              <NavLink href="/dashboard-knowly">DASHBOARD</NavLink>
               
               <RegisterButton onClick={() => navigate('/Login')}>
                 Login
@@ -441,10 +443,12 @@ export function Home() {
             <NavLink href="#">ASIGNATURAS</NavLink>
             <NavLink href="Ejercicios">GRADOS</NavLink>
             <NavLink href="precios">PRECIOS</NavLink>
+            {/* 🔥 Nuevo link Dashboard logueado */}
+            <NavLink href="/dashboard-knowly">DASHBOARD</NavLink>
             {user ? (
               <UserInfo ref={menuRef}>
                 <UserAvatar onClick={toggleUserMenu}>
-                {user.username ? user.username.charAt(0).toUpperCase() : 'U'}
+                  {user.username ? user.username.charAt(0).toUpperCase() : 'U'}
                 </UserAvatar>
                 {showMenu && (
                   <UserMenuDropdown>

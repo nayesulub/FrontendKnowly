@@ -2,8 +2,32 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { LayoutDashboard,BookText,BookOpen,Calculator,Landmark,Beaker,Atom,Globe,Monitor,LockKeyhole,ChevronRight, AlertTriangle, X, Info, Crown, Star, Shield, User, LogOut, Rocket, TrendingUp, Search  } from 'lucide-react';
-import { ROLE, getUserRole, isAdmin, isPremium, isFree } from '../../utils/roles';
+import {
+  LayoutDashboard,
+  BookText,
+  BookOpen,
+  Calculator,
+  Landmark,
+  Beaker,
+  Atom,
+  Globe,
+  Monitor,
+  LockKeyhole,
+  ChevronRight,
+  AlertTriangle,
+  X,
+  Info,
+  Crown,
+  Star,
+  Shield,
+  User,
+  LogOut,
+  Search,
+} from 'lucide-react';
+import { ROLE, getUserRole, isAdmin, isPremium } from '../../utils/roles';
+
+// 👇 IMPORTAMOS EL DASHBOARD DE SUPERSET
+import KnowlyDashboard from '../KnowlyDash.jsx';
 
 export function HomeLog() {
   const navigate = useNavigate();
@@ -12,10 +36,13 @@ export function HomeLog() {
   const [loading, setLoading] = useState(true);
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
-  
+
   // 🔍 ESTADOS PARA EL BUSCADOR
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
+
+  // 🔢 ESTADO PARA CAMBIAR ENTRE VISTA ESTUDIANTE / PANEL ADMIN
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
 
   // useEffect para obtener datos del usuario al cargar el componente
   useEffect(() => {
@@ -29,10 +56,16 @@ export function HomeLog() {
 
         const parsedUser = JSON.parse(userData);
         // Normalizar idrol y dejarlo en localStorage
-        const roleVal = parsedUser.idrol ?? parsedUser.role ?? parsedUser.id_role ?? parsedUser.role_id;
-        parsedUser.idrol = roleVal !== undefined && roleVal !== null ? Number(roleVal) : null;
+        const roleVal =
+          parsedUser.idrol ??
+          parsedUser.role ??
+          parsedUser.id_role ??
+          parsedUser.role_id;
+
+        parsedUser.idrol =
+          roleVal !== undefined && roleVal !== null ? Number(roleVal) : null;
+
         localStorage.setItem('user', JSON.stringify(parsedUser));
-        // LOG de depuración
         console.log('HomeLog: user cargado desde localStorage:', parsedUser);
         console.log('HomeLog: getUserRole():', getUserRole());
 
@@ -75,8 +108,8 @@ export function HomeLog() {
   // Organizados por categorías con paleta de colores unificada
   const subjectCategories = [
     {
-      category: "Lenguajes",
-      color: "#E8F4FD",
+      category: 'Lenguajes',
+      color: '#E8F4FD',
       subjects: [
         {
           name: 'Inglés',
@@ -84,7 +117,7 @@ export function HomeLog() {
           color: '#4A90E2',
           description: 'Aprende inglés de manera interactiva',
           ageRange: '6-18 años',
-          locked: false
+          locked: false,
         },
         {
           name: 'Verbos',
@@ -92,13 +125,13 @@ export function HomeLog() {
           color: '#5BA7F7',
           description: 'Domina la conjugación verbal',
           ageRange: '8-16 años',
-          locked: false
-        }
-      ]
+          locked: false,
+        },
+      ],
     },
     {
-      category: "Saberes y Pensamiento Cientifico",
-      color: "#F0E8FF",
+      category: 'Saberes y Pensamiento Cientifico',
+      color: '#F0E8FF',
       subjects: [
         {
           name: 'Matemáticas',
@@ -106,7 +139,7 @@ export function HomeLog() {
           color: '#8B5CF6',
           description: 'Matemáticas paso a paso',
           ageRange: '6-18 años',
-          locked: false
+          locked: false,
         },
         {
           name: 'Química',
@@ -114,7 +147,7 @@ export function HomeLog() {
           color: '#A78BFA',
           description: 'Experimentos y teoría química',
           ageRange: '12-18 años',
-          locked: false
+          locked: false,
         },
         {
           name: 'Física',
@@ -122,13 +155,13 @@ export function HomeLog() {
           color: '#C4B5FD',
           description: 'Física aplicada y conceptual',
           ageRange: '14-18 años',
-          locked: false
-        }
-      ]
+          locked: false,
+        },
+      ],
     },
     {
-      category: "Etica, Naturaleza y Sociedades",
-      color: "#FFF0E8",
+      category: 'Etica, Naturaleza y Sociedades',
+      color: '#FFF0E8',
       subjects: [
         {
           name: 'Historia',
@@ -136,7 +169,7 @@ export function HomeLog() {
           color: '#F97316',
           description: 'Historia universal y regional',
           ageRange: '10-18 años',
-          locked: false
+          locked: false,
         },
         {
           name: 'Geografía',
@@ -144,13 +177,13 @@ export function HomeLog() {
           color: '#FB923C',
           description: 'Geografía física y humana',
           ageRange: '8-16 años',
-          locked: false
-        }
-      ]
+          locked: false,
+        },
+      ],
     },
     {
-      category: "Tecnología",
-      color: "#E8FFF4",
+      category: 'Tecnología',
+      color: '#E8FFF4',
       subjects: [
         {
           name: 'Informática',
@@ -158,10 +191,10 @@ export function HomeLog() {
           color: '#10B981',
           description: 'Programación y tecnología',
           ageRange: '12-18 años',
-          locked: false
-        }
-      ]
-    }
+          locked: false,
+        },
+      ],
+    },
   ];
 
   const handleSubjectClick = (subject) => {
@@ -171,7 +204,7 @@ export function HomeLog() {
       navigate('/Asignaturas');
     }
   };
-  
+
   const closeModal = () => {
     setLockedSubject(null);
   };
@@ -187,16 +220,17 @@ export function HomeLog() {
     }
 
     const searchLower = debouncedSearch.toLowerCase();
-    
+
     return subjectCategories
-      .map(category => ({
+      .map((category) => ({
         ...category,
-        subjects: category.subjects.filter(subject =>
-          subject.name.toLowerCase().includes(searchLower) ||
-          subject.description.toLowerCase().includes(searchLower)
-        )
+        subjects: category.subjects.filter(
+          (subject) =>
+            subject.name.toLowerCase().includes(searchLower) ||
+            subject.description.toLowerCase().includes(searchLower)
+        ),
       }))
-      .filter(category => category.subjects.length > 0);
+      .filter((category) => category.subjects.length > 0);
   };
 
   const filteredCategories = getFilteredCategories();
@@ -210,7 +244,7 @@ export function HomeLog() {
         icon: <Shield size={24} />,
         gradient: 'linear-gradient(135deg, #dc2626 0%, #ef4444 100%)',
         bgColor: '#fef2f2',
-        borderColor: '#dc2626'
+        borderColor: '#dc2626',
       };
     }
     if (role === ROLE.PREMIUM || isPremium()) {
@@ -219,7 +253,7 @@ export function HomeLog() {
         icon: <Star size={24} />,
         gradient: 'linear-gradient(135deg, #3b82f6 0%, #6366f1 100%)',
         bgColor: '#eff6ff',
-        borderColor: '#3b82f6'
+        borderColor: '#3b82f6',
       };
     }
     // free o default
@@ -228,7 +262,7 @@ export function HomeLog() {
       icon: <Crown size={24} />,
       gradient: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
       bgColor: '#fffbeb',
-      borderColor: '#fbbf24'
+      borderColor: '#fbbf24',
     };
   };
 
@@ -261,12 +295,14 @@ export function HomeLog() {
   }
 
   const welcomeData = getWelcomeMessage();
+  const role = getUserRole();
+  const isUserAdmin = role === ROLE.ADMIN || isAdmin();
 
   return (
     <HomeContainer>
       <Header>
         <Logo src="././Knowly.png" alt="Knowly" />
-        
+
         {/* 🔍 BUSCADOR EN EL HEADER */}
         <HeaderSearchWrapper>
           <SearchIcon>
@@ -316,7 +352,9 @@ export function HomeLog() {
             ) : (
               <>
                 <NavLink href="Login">ACCEDE</NavLink>
-                <RegisterButton onClick={() => navigate('/registro')}>Registrate</RegisterButton>
+                <RegisterButton onClick={() => navigate('/registro')}>
+                  Registrate
+                </RegisterButton>
               </>
             )}
           </NavItemsWrapper>
@@ -326,7 +364,10 @@ export function HomeLog() {
       <Main>
         {/* Mensaje de bienvenida dinámico */}
         {user && welcomeData && (
-          <WelcomeSection bgColor={welcomeData.bgColor} borderColor={welcomeData.borderColor}>
+          <WelcomeSection
+            bgColor={welcomeData.bgColor}
+            borderColor={welcomeData.borderColor}
+          >
             <WelcomeContent>
               <WelcomeIcon gradient={welcomeData.gradient}>
                 {welcomeData.icon}
@@ -338,83 +379,115 @@ export function HomeLog() {
           </WelcomeSection>
         )}
 
-        {/* 🔍 INFO DE RESULTADOS */}
-        {debouncedSearch && (
-          <SearchResultsInfo>
-            {filteredCategories.reduce((acc, cat) => acc + cat.subjects.length, 0)} 
-            {' resultados encontrados'}
-          </SearchResultsInfo>
+        {/* 🔁 PESTAÑAS SOLO PARA ADMIN */}
+        {user && isUserAdmin && (
+          <AdminTabsWrapper>
+            <AdminTab
+              type="button"
+              active={!showAdminDashboard}
+              onClick={() => setShowAdminDashboard(false)}
+            >
+              Vista estudiante
+            </AdminTab>
+            <AdminTab
+              type="button"
+              active={showAdminDashboard}
+              onClick={() => setShowAdminDashboard(true)}
+            >
+              Panel administrativo
+            </AdminTab>
+          </AdminTabsWrapper>
         )}
 
-        <SectionTitle>CATEGORÍAS</SectionTitle>
-        
-        {filteredCategories.map((category, categoryIndex) => (
-          <React.Fragment key={categoryIndex}>
-            <CategorySection>
-              <CategoryHeader backgroundColor={category.color}>
-                <CategoryTitle>{category.category}</CategoryTitle>
-              </CategoryHeader>
-              
-              <SubjectsGrid>
-                {category.subjects.map((subject, index) => (
-                  <SubjectCard key={index}>
-                    <SubjectContent>
-                      <IconContainer color={subject.color}>
-                        {subject.icon}
-                      </IconContainer>
-                      <SubjectName>{subject.name}</SubjectName>
-                      <SubjectDescription>
-                        {subject.description} <br/>
-                        <AgeRange>{subject.ageRange}</AgeRange>
-                      </SubjectDescription>
-                    </SubjectContent>
-                    
-                    {subject.locked ? (
-                      <LockedContainer>
-                        <LockIcon>
-                          <LockKeyhole size={16} />
-                        </LockIcon>
-                        <LockTooltip>
-                          <Info size={12} />
-                          <span>Disponible con KnowlyPlus</span>
-                        </LockTooltip>
-                        <CourseButton
-                          locked={true}
-                          onClick={() => handleSubjectClick(subject)}
-                        >
-                          <span>Ver Plan Premium</span>
-                        </CourseButton>
-                      </LockedContainer>
-                    ) : (
-                      <CourseButton
-                        locked={false}
-                        onClick={() => handleSubjectClick(subject)}
-                      >
-                        <span>Unirme</span>
-                        <ChevronRight size={16} />
-                      </CourseButton>
-                    )}
-                  </SubjectCard>
-                ))}
-              </SubjectsGrid>
-            </CategorySection>
-          </React.Fragment>
-        ))}
+        {/* SI ES ADMIN Y ESTÁ EN PANEL, MOSTRAMOS SUPERSET */}
+        {user && isUserAdmin && showAdminDashboard ? (
+          <DashboardWrapper>
+            <KnowlyDashboard />
+          </DashboardWrapper>
+        ) : (
+          <>
+            {/* 🔍 INFO DE RESULTADOS */}
+            {debouncedSearch && (
+              <SearchResultsInfo>
+                {filteredCategories.reduce(
+                  (acc, cat) => acc + cat.subjects.length,
+                  0
+                )}{' '}
+                resultados encontrados
+              </SearchResultsInfo>
+            )}
 
-        {/* 🔍 MENSAJE SIN RESULTADOS */}
-        {filteredCategories.length === 0 && debouncedSearch && (
-          <NoResultsContainer>
-            <NoResultsIcon>
-              <Search size={48} />
-            </NoResultsIcon>
-            <NoResultsTitle>No se encontraron asignaturas</NoResultsTitle>
-            <NoResultsText>
-              Intenta con otros términos de búsqueda
-            </NoResultsText>
-            <ClearSearchButton onClick={() => setSearchTerm('')}>
-              Limpiar búsqueda
-            </ClearSearchButton>
-          </NoResultsContainer>
+            <SectionTitle>CATEGORÍAS</SectionTitle>
+
+            {filteredCategories.map((category, categoryIndex) => (
+              <React.Fragment key={categoryIndex}>
+                <CategorySection>
+                  <CategoryHeader backgroundColor={category.color}>
+                    <CategoryTitle>{category.category}</CategoryTitle>
+                  </CategoryHeader>
+
+                  <SubjectsGrid>
+                    {category.subjects.map((subject, index) => (
+                      <SubjectCard key={index}>
+                        <SubjectContent>
+                          <IconContainer color={subject.color}>
+                            {subject.icon}
+                          </IconContainer>
+                          <SubjectName>{subject.name}</SubjectName>
+                          <SubjectDescription>
+                            {subject.description} <br />
+                            <AgeRange>{subject.ageRange}</AgeRange>
+                          </SubjectDescription>
+                        </SubjectContent>
+
+                        {subject.locked ? (
+                          <LockedContainer>
+                            <LockIcon>
+                              <LockKeyhole size={16} />
+                            </LockIcon>
+                            <LockTooltip>
+                              <Info size={12} />
+                              <span>Disponible con KnowlyPlus</span>
+                            </LockTooltip>
+                            <CourseButton
+                              locked={true}
+                              onClick={() => handleSubjectClick(subject)}
+                            >
+                              <span>Ver Plan Premium</span>
+                            </CourseButton>
+                          </LockedContainer>
+                        ) : (
+                          <CourseButton
+                            locked={false}
+                            onClick={() => handleSubjectClick(subject)}
+                          >
+                            <span>Unirme</span>
+                            <ChevronRight size={16} />
+                          </CourseButton>
+                        )}
+                      </SubjectCard>
+                    ))}
+                  </SubjectsGrid>
+                </CategorySection>
+              </React.Fragment>
+            ))}
+
+            {/* 🔍 MENSAJE SIN RESULTADOS */}
+            {filteredCategories.length === 0 && debouncedSearch && (
+              <NoResultsContainer>
+                <NoResultsIcon>
+                  <Search size={48} />
+                </NoResultsIcon>
+                <NoResultsTitle>No se encontraron asignaturas</NoResultsTitle>
+                <NoResultsText>
+                  Intenta con otros términos de búsqueda
+                </NoResultsText>
+                <ClearSearchButton onClick={() => setSearchTerm('')}>
+                  Limpiar búsqueda
+                </ClearSearchButton>
+              </NoResultsContainer>
+            )}
+          </>
         )}
       </Main>
 
@@ -432,8 +505,10 @@ export function HomeLog() {
             </ModalHeader>
             <ModalBody>
               <p>
-                <strong>{lockedSubject.name}</strong> está disponible con KnowlyPlus.
-                <br/><br/>
+                <strong>{lockedSubject.name}</strong> está disponible con
+                KnowlyPlus.
+                <br />
+                <br />
                 Accede a todas las materias y contenido exclusivo.
               </p>
             </ModalBody>
@@ -448,14 +523,14 @@ export function HomeLog() {
           </ModalContent>
         </ModalOverlay>
       )}
-
     </HomeContainer>
   );
 }
 
 export default HomeLog;
 
-// Styled Components
+/* ===================== STYLED COMPONENTS ===================== */
+
 const HomeContainer = styled.div`
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
@@ -768,7 +843,7 @@ const MenuItem = styled.button`
   &:hover {
     background: #f8fafc;
     color: #7c3aed;
-    
+
     svg {
       color: #7c3aed;
     }
@@ -824,8 +899,12 @@ const LoadingSpinner = styled.div`
   animation: spin 1s linear infinite;
 
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 
@@ -836,11 +915,11 @@ const LoadingText = styled.p`
 `;
 
 const WelcomeSection = styled.div`
-  background: ${props => props.bgColor};
+  background: ${(props) => props.bgColor};
   border-radius: 20px;
   padding: 2rem;
   margin-bottom: 3rem;
-  border: 3px solid ${props => props.borderColor};
+  border: 3px solid ${(props) => props.borderColor};
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   position: relative;
   overflow: hidden;
@@ -852,13 +931,18 @@ const WelcomeSection = styled.div`
     left: 0;
     right: 0;
     height: 4px;
-    background: ${props => props.borderColor};
+    background: ${(props) => props.borderColor};
     animation: shimmer 2s ease-in-out infinite;
   }
 
   @keyframes shimmer {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
+    0%,
+    100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
   }
 
   @media (max-width: 768px) {
@@ -882,7 +966,7 @@ const WelcomeContent = styled.div`
 `;
 
 const WelcomeIcon = styled.div`
-  background: ${props => props.gradient};
+  background: ${(props) => props.gradient};
   color: white;
   width: 60px;
   height: 60px;
@@ -894,8 +978,13 @@ const WelcomeIcon = styled.div`
   animation: pulse 2.5s ease-in-out infinite;
 
   @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.08);
+    }
   }
 
   @media (max-width: 768px) {
@@ -905,7 +994,7 @@ const WelcomeIcon = styled.div`
 `;
 
 const WelcomeText = styled.h1`
-  background: ${props => props.gradient};
+  background: ${(props) => props.gradient};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -921,6 +1010,48 @@ const WelcomeText = styled.h1`
 
   @media (max-width: 480px) {
     font-size: 1.3rem;
+  }
+`;
+
+/* 🔁 PESTAÑAS ADMIN */
+
+const AdminTabsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+`;
+
+const AdminTab = styled.button`
+  padding: 0.6rem 1.6rem;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: ${(props) =>
+    props.active
+      ? 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)'
+      : '#e5e7eb'};
+  color: ${(props) => (props.active ? 'white' : '#4b5563')};
+  box-shadow: ${(props) =>
+    props.active ? '0 6px 18px rgba(124, 58, 237, 0.35)' : 'none'};
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+`;
+
+const DashboardWrapper = styled.div`
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+  height: calc(100vh - 230px); /* Ajusta si quieres más/menos alto */
+
+  @media (max-width: 768px) {
+    height: 70vh;
   }
 `;
 
@@ -1030,7 +1161,7 @@ const CategorySection = styled.div`
 `;
 
 const CategoryHeader = styled.div`
-  background: ${props => props.backgroundColor};
+  background: ${(props) => props.backgroundColor};
   border-radius: 15px 15px 0 0;
   padding: 1rem 2rem;
   border-left: 5px solid #7c3aed;
@@ -1091,8 +1222,12 @@ const SubjectContent = styled.div`
 `;
 
 const IconContainer = styled.div`
-  background: linear-gradient(135deg, ${props => props.color}15 0%, ${props => props.color}25 100%);
-  border: 3px solid ${props => props.color};
+  background: linear-gradient(
+    135deg,
+    ${(props) => props.color}15 0%,
+    ${(props) => props.color}25 100%
+  );
+  border: 3px solid ${(props) => props.color};
   width: 70px;
   height: 70px;
   border-radius: 20px;
@@ -1100,7 +1235,7 @@ const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
-  color: ${props => props.color};
+  color: ${(props) => props.color};
   transition: all 0.3s ease;
 
   &:hover {
@@ -1153,9 +1288,10 @@ const LockTooltip = styled.div`
 `;
 
 const CourseButton = styled.button`
-  background: ${props => props.locked ? 
-    'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' : 
-    'linear-gradient(135deg, #10b981 0%, #059669 100%)'};
+  background: ${(props) =>
+    props.locked
+      ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
+      : 'linear-gradient(135deg, #10b981 0%, #059669 100%)'};
   color: white;
   border: none;
   border-radius: 25px;
@@ -1173,13 +1309,16 @@ const CourseButton = styled.button`
   font-size: 0.9rem;
 
   &:hover {
-    background: ${props => props.locked ? 
-      'linear-gradient(135deg, #d97706 0%, #b45309 100%)' : 
-      'linear-gradient(135deg, #059669 0%, #047857 100%)'};
+    background: ${(props) =>
+      props.locked
+        ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
+        : 'linear-gradient(135deg, #059669 0%, #047857 100%)'};
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px ${props => props.locked ? 
-      'rgba(245, 158, 11, 0.3)' : 
-      'rgba(16, 185, 129, 0.3)'};
+    box-shadow: 0 8px 20px
+      ${(props) =>
+        props.locked
+          ? 'rgba(245, 158, 11, 0.3)'
+          : 'rgba(16, 185, 129, 0.3)'};
   }
 `;
 
@@ -1298,3 +1437,4 @@ const ConfirmButton = styled.button`
     font-size: 0.9rem;
   }
 `;
+
