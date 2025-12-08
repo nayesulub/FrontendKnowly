@@ -2,8 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { embedDashboard } from "@superset-ui/embedded-sdk";
 import axios from "axios";
+import { API_BASE_URL } from "../utils/config";
 
-const API_BASE_URL = "http://127.0.0.1:8000/api";
 const SUPERSET_DOMAIN = "http://localhost:8088";
 const DASHBOARD_ID = "a872e91b-d1eb-4cb5-871a-dba335f052ad";
 

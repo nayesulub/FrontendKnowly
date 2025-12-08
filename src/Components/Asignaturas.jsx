@@ -28,8 +28,9 @@ import {
   Search,
   Coins
 } from 'lucide-react';
+import { API_ENDPOINTS } from '../utils/config';
 
-const CATEGORIAS_ALL_API = 'http://localhost:8000/api/categorias-all';
+const CATEGORIAS_ALL_API = API_ENDPOINTS.CATEGORIAS_ALL;
 const LEADERBOARD_KEY = 'knowly_leaderboard';
 
 export function Home() {

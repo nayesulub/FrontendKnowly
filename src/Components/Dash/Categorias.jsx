@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Edit2, Trash2, PlusCircle, X, Save, AlertTriangle } from 'lucide-react';
+import { API_ENDPOINTS } from '../../utils/config';
 
-const API_URL = "http://localhost:8000/api/categorias";
+const API_URL = API_ENDPOINTS.CATEGORIAS;
 
 const Categorias = () => {
 

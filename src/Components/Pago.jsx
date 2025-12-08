@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { CreditCard, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import CheckoutButton from './CheckoutButton';
+import { API_BASE_URL } from '../utils/config';
 
 export function Pago() {
   const navigate = useNavigate();
@@ -17,8 +18,6 @@ export function Pago() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
-
-  const API_BASE_URL = 'http://localhost:8000/api';
 
   // ---------- Helpers de auth ----------
   const getAuthHeaders = () => {

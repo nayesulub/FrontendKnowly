@@ -13,6 +13,7 @@ import {
   Image,
   Tag,
 } from 'lucide-react';
+import { API_ENDPOINTS } from '../../utils/config';
 
 const Nivel = () => {
   const [niveles, setNiveles] = useState([]);
@@ -37,7 +38,7 @@ const Nivel = () => {
         setLoading(true);
         setApiError(null);
 
-        const res = await fetch('http://localhost:8000/api/usuarios', {
+        const res = await fetch(API_ENDPOINTS.USUARIOS, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',

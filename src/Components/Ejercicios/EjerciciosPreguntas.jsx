@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { User, LogOut, ArrowLeft } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { API_BASE_URL } from '../../utils/config';
 
 const EjerciciosPreguntas = () => {
   const navigate = useNavigate();
@@ -68,7 +69,7 @@ const EjerciciosPreguntas = () => {
         setLoadingPreguntas(true);
         setErrorPreguntas(null);
 
-        const res = await fetch(`http://localhost:8000/api/actividades/${actividadId}/preguntas`);
+        const res = await fetch(`${API_BASE_URL}/actividades/${actividadId}/preguntas`);
 
         if (!res.ok) {
           const raw = await res.text();
@@ -197,7 +198,7 @@ const marcarActividadCompletada = async (puntosFinales) => {
     const token = localStorage.getItem('token');
     console.log('marcarActividadCompletada token:', token, 'actividadId:', actividadId);
 
-    const res = await fetch(`http://localhost:8000/api/actividades/${actividadId}/completar`, {
+    const res = await fetch(`${API_BASE_URL}/actividades/${actividadId}/completar`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -228,7 +229,7 @@ const marcarActividadCompletada = async (puntosFinales) => {
     console.log('token:', localStorage.getItem('token'));
 // el que guardas al hacer login
 
-    const res = await fetch('http://localhost:8000/api/user/add-points', {
+    const res = await fetch(`${API_BASE_URL}/user/add-points`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

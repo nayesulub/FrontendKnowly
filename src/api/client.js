@@ -1,8 +1,9 @@
 // src/api/client.js
 import axios from "axios";
+import { API_BASE_URL } from "../utils/config";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000", // tu backend Laravel
+  baseURL: API_BASE_URL,
   withCredentials: true,
 });
 

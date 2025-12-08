@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Edit2, Trash2, PlusCircle, X, Save, AlertTriangle } from 'lucide-react';
+import { API_ENDPOINTS } from '../../utils/config';
 
-const ACTIVIDADES_API = 'http://localhost:8000/api/actividades';
-const ASIGNATURAS_API = 'http://localhost:8000/api/asignaturas';
-const PREGUNTAS_API = 'http://localhost:8000/api/preguntas';
+const ACTIVIDADES_API = API_ENDPOINTS.ACTIVIDADES;
+const ASIGNATURAS_API = API_ENDPOINTS.ASIGNATURAS;
+const PREGUNTAS_API = API_ENDPOINTS.PREGUNTAS;
 
 const Grados = () => {
   // Helper para crear una pregunta vacía tipo Google Forms

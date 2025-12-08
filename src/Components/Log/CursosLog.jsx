@@ -103,7 +103,7 @@ const CursosLog = () => {
               <DropdownMenu>
                 <DropdownItem to="/Dashboard">Panel de Admin</DropdownItem>
                 <DropdownItem to="/perfil">Mi Perfil</DropdownItem>
-                <DropdownItem to="http://localhost:5173">Cerrar Sesión</DropdownItem>
+                <DropdownItem to="/">Cerrar Sesión</DropdownItem>
               </DropdownMenu>
             )}
           </UserProfile>
