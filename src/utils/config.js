@@ -3,7 +3,9 @@
  */
 
 // ⚠️ IMPORTANTE: aquí NO debe llevar /api
-export const API_ROOT_URL = import.meta.env.VITE_API_URL || "https://knowly-vkbg.onrender.com";
+const RAW_ROOT = import.meta.env.VITE_API_URL || "https://knowly-vkbg.onrender.com";
+// Normalizamos para evitar doble slash y asegurar que no termina en /
+export const API_ROOT_URL = RAW_ROOT.replace(/\/+$/, "");
 
 // Aquí SI le agregamos /api para endpoints
 export const API_BASE_URL = `${API_ROOT_URL}/api`;
