@@ -22,3 +22,16 @@ export const API_ENDPOINTS = {
 
   LOGIN_GOOGLE: `${API_ROOT_URL}/login/google`,
 };
+
+
+
+
+
+
+
+
+
+
+
+
+//pruebas export const SUPERSET_DOMAIN = "https://superset.knowly.app";
