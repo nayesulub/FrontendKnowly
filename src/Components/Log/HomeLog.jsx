@@ -27,7 +27,7 @@ import {
 import { ROLE, getUserRole, isAdmin, isPremium } from '../../utils/roles';
 
 // 👇 IMPORTAMOS EL DASHBOARD DE SUPERSET
-import KnowlyDashboard from '../KnowlyDash.jsx';
+import SupersetBoard from '../Dash/SupersetBoard.jsx';
 
 export function HomeLog() {
   const navigate = useNavigate();
@@ -401,9 +401,9 @@ export function HomeLog() {
 
         {/* SI ES ADMIN Y ESTÁ EN PANEL, MOSTRAMOS SUPERSET */}
         {user && isUserAdmin && showAdminDashboard ? (
-          <DashboardWrapper>
-            <KnowlyDashboard />
-          </DashboardWrapper>
+  <DashboardWrapper>
+    <SupersetBoard />
+  </DashboardWrapper>
         ) : (
           <>
             {/* 🔍 INFO DE RESULTADOS */}

@@ -1,7 +1,8 @@
-// KnowlyDash.jsx
+// src/Components/KnowlyDash.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { embedDashboard } from "@superset-ui/embedded-sdk";
 import axios from "axios";
+import styled from "styled-components";
 
 const API_BASE_URL = "http://127.0.0.1:8000/api";
 const SUPERSET_DOMAIN = "http://localhost:8088";
@@ -35,7 +36,7 @@ export default function KnowlyDashboard() {
           mountPoint: containerRef.current,
           fetchGuestToken: () => Promise.resolve(token),
           dashboardUiConfig: {
-            hideTitle: true,
+            hideTitle: true,   // ya tenemos nuestro propio título
             hideTab: true,
             filters: false,
           },
@@ -47,20 +48,54 @@ export default function KnowlyDashboard() {
     }
 
     load();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
-    <div style={{ width: "100%", height: "100%" }}>
+    <SupersetPage>
       {error && (
-        <p style={{ color: "red", padding: "8px" }}>
+        <SupersetError>
           Error cargando dashboard: {error}
-        </p>
+        </SupersetError>
       )}
-      <div
-        ref={containerRef}
-        style={{ width: "100%", height: "100%", background: "#fff" }}
-      />
-    </div>
+
+      {/* 🔥 Aquí Superset inyecta el iframe */}
+      <SupersetWrapper ref={containerRef} />
+    </SupersetPage>
   );
 }
+
+/* ================== styled-components ================== */
+
+const SupersetPage = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const SupersetError = styled.div`
+  color: #c0392b;
+  background: #fdecec;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+`;
+
+// 👇 aquí el ajuste importante
+const SupersetWrapper = styled.div`
+  width: 100%;
+  height: 70vh;          
+  background: #ffffff;    
+  border-radius: 12px;
+  overflow: hidden;
+
+  iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+    display: block;
+  }
+`;
