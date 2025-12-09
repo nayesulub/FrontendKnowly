@@ -3,7 +3,7 @@
  */
 
 // ⚠️ IMPORTANTE: aquí NO debe llevar /api
-const RAW_ROOT = import.meta.env.VITE_API_URL || "https://knowly-vkbg.onrender.com";
+const RAW_ROOT = import.meta.env.VITE_API_URL || "hhttp://localhost:8000";
 // Normalizamos para evitar doble slash y asegurar que no termina en /
 export const API_ROOT_URL = RAW_ROOT.replace(/\/+$/, "");
 
