@@ -18,7 +18,7 @@ function SupersetBoard() {
         console.log("📡 Pidiendo guest token a Laravel...");
         console.log("🔍 Axios baseURL:", api.defaults.baseURL);
 
-        // 1) Pedimos el token al backend Laravel
+        // 1) Pedimos el token del backend Laravel
         const res = await api.get("/superset/guest-token");
         console.log("✔ Backend respondió:", res.data);
 
@@ -85,26 +85,15 @@ function SupersetBoard() {
   }, []);
 
   return (
-    <div>
+    <div className="superset-page">
+      <h2 className="titulo-superset">Dashboard de Superset</h2>
+
       {loading && <p>Cargando dashboard...</p>}
 
-      {error && (
-        <div
-          style={{
-            background: "#fdecec",
-            color: "#c0392b",
-            padding: "10px 16px",
-            borderRadius: "8px",
-            marginBottom: "12px",
-            whiteSpace: "pre-wrap",
-          }}
-        >
-          {error}
-        </div>
-      )}
+      {error && <div className="superset-error">{error}</div>}
 
-      {/* 🔥 Contenedor donde se monta Superset */}
-      <div ref={containerRef} className="superset-wrapper"></div>
+      {/* Contenedor REAL donde se monta Superset */}
+      <div ref={containerRef} className="superset-wrapper" />
     </div>
   );
 }
