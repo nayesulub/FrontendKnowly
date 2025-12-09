@@ -32,6 +32,12 @@ export function Login() {
   try {
     const response = await axios.post("http://127.0.0.1:8000/api/login", formData);
 
+
+
+
+
+
+    
     // 🚀 Guardar el usuario y token
     const user = response.data.user;
   user.idrol = Number(user.idrol); // asegurar que sea número
