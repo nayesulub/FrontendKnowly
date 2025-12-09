@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { CreditCard, Lock, CheckCircle } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import CheckoutButton from './CheckoutButton';
-import { API_BASE_URL } from '../utils/config';
 
 // 🔹 Config de los packs
 const PACKS = {
@@ -29,6 +28,8 @@ const PACKS = {
     descripcion: "Paquete grande de 170 cristales",
   },
 };
+
+const API_BASE_URL = "http://localhost:8000/api";
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");

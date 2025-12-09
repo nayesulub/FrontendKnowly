@@ -3,7 +3,6 @@ import { Mail, Lock, ChevronLeft, Eye, EyeOff, Globe, Users, Box } from 'lucide-
 import React, { useState } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
-import { API_BASE_URL } from '../utils/config';
 
 export function Login() {
   const navigate = useNavigate();
@@ -31,7 +30,7 @@ export function Login() {
 
   setLoading(true);
   try {
-    const response = await axios.post(`${API_BASE_URL}/login`, formData);
+    const response = await axios.post("http://127.0.0.1:8000/api/login", formData);
 
     // 🚀 Guardar el usuario y token
     const user = response.data.user;
@@ -110,7 +109,7 @@ export function Login() {
             disabled={loading}
             onClick={() => {
             // Abre el endpoint de login de Google
-            window.location.href = `${API_BASE_URL.replace('/api', '')}/login/google`;
+            window.location.href = "http://127.0.0.1:8000/login/google";
 
           }}>
                  {loading ? "Cargando..." : "Google"}

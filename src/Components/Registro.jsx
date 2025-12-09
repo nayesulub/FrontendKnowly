@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Mail, User, Lock, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../utils/config';
 
 export function Registro() {
     const navigate = useNavigate();
@@ -28,7 +27,7 @@ export function Registro() {
       console.log('📤 Enviando datos:', formData);
       
       try {
-        const response = await fetch(`${API_BASE_URL}/register`, {
+        const response = await fetch('http://127.0.0.1:8000/api/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -235,7 +234,7 @@ export function Registro() {
             disabled={loading}
             onClick={() => {
             // Abre el endpoint de login de Google
-            window.location.href = `${API_BASE_URL.replace('/api', '')}/login/google`;
+            window.location.href = "http://127.0.0.1:8000/login/google";
 
           }}>
                  {loading ? "Cargando..." : "Google"}

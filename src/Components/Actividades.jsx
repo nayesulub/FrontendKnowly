@@ -14,7 +14,6 @@ import {
   ArrowLeft,
   ChevronRight,
 } from 'lucide-react';
-import { API_BASE_URL } from '../utils/config';
 
 export function Actividades() {
   const navigate = useNavigate();
@@ -83,7 +82,7 @@ export function Actividades() {
       setApiError(null);
 
       const res = await fetch(
-        `${API_BASE_URL}/asignaturas/${asignaturaId}/actividades`
+        `http://localhost:8000/api/asignaturas/${asignaturaId}/actividades`
       );
 
       if (!res.ok) {
@@ -125,7 +124,7 @@ export function Actividades() {
 
         // Pedimos todas las actividades (hide_completed=0) y confiamos en que backend
         // incluya `completada: true/false` por actividad.
-        const res = await fetch(`${API_BASE_URL}/asignaturas/${asignaturaId}/actividades?hide_completed=0`);
+        const res = await fetch(`http://localhost:8000/api/asignaturas/${asignaturaId}/actividades?hide_completed=0`);
 
         if (!res.ok) {
           throw new Error('No se pudieron cargar las actividades');
