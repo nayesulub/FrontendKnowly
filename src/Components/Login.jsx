@@ -30,14 +30,8 @@ export function Login() {
 
   setLoading(true);
   try {
-    const response = await axios.post("http://127.0.0.1:8000/api/login", formData);
+    const response = await axios.post("https://knowly-vkbg.onrender.com/api/login", formData);
 
-
-
-
-
-
-    
     // 🚀 Guardar el usuario y token
     const user = response.data.user;
   user.idrol = Number(user.idrol); // asegurar que sea número
@@ -48,7 +42,7 @@ export function Login() {
       localStorage.setItem("token", response.data.token);
     }
 
-      setTimeout(() => navigate("/Asignaturas"), 500);
+      setTimeout(() => navigate("/HomeLog"), 500);
     } catch (error) {
       setError(error.response?.data?.error || "Error en la autenticación.");
     } finally {
@@ -115,7 +109,7 @@ export function Login() {
             disabled={loading}
             onClick={() => {
             // Abre el endpoint de login de Google
-            window.location.href = "http://127.0.0.1:8000/login/google";
+            window.location.href = "https://knowly-vkbg.onrender.com/login/google";
 
           }}>
                  {loading ? "Cargando..." : "Google"}

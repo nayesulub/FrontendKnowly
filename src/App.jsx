@@ -13,6 +13,7 @@ import Pago from "./Components/Pago";
 import Ejercicios from "./Components/Log/Ejercicios";
 // 👇 Dashboard lo cargamos en lazy para que, si truena, no mate toda la app
 //const Dashboard = lazy(() => import("./Components/Dash/Dashboard"));
+import SupersetAdmin from "./Components/Dash/SupersetAdmin.jsx";
 import Dashboard from "./Components/Dash/Dashboard";
 import Gestion from "./Components/Dash/Gestion";
 import Nivel from "./Components/Dash/Nivel";
@@ -58,6 +59,8 @@ function App() {
         <Route path="/HomeLog" element={<HomeLog />} />
         <Route path="/Pago" element={<Pago />} />
         <Route path="/Ejercicios" element={<Ejercicios />} />
+        <Route path="/superset-admin" element={<SupersetAdmin />} />
+
 
         {/* 🔹 Panel administrativo con sidebar + Superset */}
         <Route path="/Dashboard" element={<Dashboard />} />
