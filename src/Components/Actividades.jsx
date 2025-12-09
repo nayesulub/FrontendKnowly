@@ -82,7 +82,7 @@ export function Actividades() {
       setApiError(null);
 
       const res = await fetch(
-        `http://localhost:8000/api/asignaturas/${asignaturaId}/actividades`
+        `https://knowly-vkbg.onrender.com/api/asignaturas/${asignaturaId}/actividades`
       );
 
       if (!res.ok) {
@@ -124,7 +124,7 @@ export function Actividades() {
 
         // Pedimos todas las actividades (hide_completed=0) y confiamos en que backend
         // incluya `completada: true/false` por actividad.
-        const res = await fetch(`http://localhost:8000/api/asignaturas/${asignaturaId}/actividades?hide_completed=0`);
+        const res = await fetch(`https://knowly-vkbg.onrender.com/api/asignaturas/${asignaturaId}/actividades?hide_completed=0`);
 
         if (!res.ok) {
           throw new Error('No se pudieron cargar las actividades');

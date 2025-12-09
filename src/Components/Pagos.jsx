@@ -29,7 +29,7 @@ const PACKS = {
   },
 };
 
-const API_BASE_URL = "http://localhost:8000/api";
+const API_BASE_URL = "https://knowly-vkbg.onrender.com/api";
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");

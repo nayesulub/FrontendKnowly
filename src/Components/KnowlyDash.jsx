@@ -4,7 +4,7 @@ import { embedDashboard } from "@superset-ui/embedded-sdk";
 import axios from "axios";
 import styled from "styled-components";
 
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+const API_BASE_URL = "https://knowly-vkbg.onrender.com/api";
 const SUPERSET_DOMAIN = "https://elroy-phylic-jefferson.ngrok-free.dev";
 const DASHBOARD_ID = "a872e91b-d1eb-4cb5-871a-dba335f052ad";
 

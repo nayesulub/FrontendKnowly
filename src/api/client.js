@@ -2,8 +2,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL, // 👈 NADA de localhost aquí
+  baseURL: "https://knowly-vkbg.onrender.com", // tu backend Laravel
   withCredentials: true,
 });
 
-export default api;
+export default api;

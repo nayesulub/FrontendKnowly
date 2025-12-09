@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Edit2, Trash2, PlusCircle, X, Save, AlertTriangle } from 'lucide-react';
 
-const ACTIVIDADES_API = 'http://localhost:8000/api/actividades';
-const ASIGNATURAS_API = 'http://localhost:8000/api/asignaturas';
-const PREGUNTAS_API = 'http://localhost:8000/api/preguntas';
+const ACTIVIDADES_API = 'https://knowly-vkbg.onrender.com/api/actividades';
+const ASIGNATURAS_API = 'https://knowly-vkbg.onrender.com/api/asignaturas';
+const PREGUNTAS_API = 'https://knowly-vkbg.onrender.com/api/preguntas';
 
 const Grados = () => {
   // Helper para crear una pregunta vacía tipo Google Forms

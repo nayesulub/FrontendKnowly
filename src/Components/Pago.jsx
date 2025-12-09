@@ -18,7 +18,7 @@ export function Pago() {
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
 
-  const API_BASE_URL = 'http://localhost:8000/api';
+  const API_BASE_URL = 'https://knowly-vkbg.onrender.com/api';
 
   // ---------- Helpers de auth ----------
   const getAuthHeaders = () => {

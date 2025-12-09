@@ -37,7 +37,7 @@ const Nivel = () => {
         setLoading(true);
         setApiError(null);
 
-        const res = await fetch('http://localhost:8000/api/usuarios', {
+        const res = await fetch('https://knowly-vkbg.onrender.com/api/usuarios', {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
