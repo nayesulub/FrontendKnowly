@@ -1,3 +1,4 @@
+// src/Components/Dash/Dashboard.jsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Gestion from './Gestion';
@@ -6,9 +7,32 @@ import Grados from './Grados';
 import Historial from './Historial';
 import SupersetAdmin from './SupersetAdmin';
 import { useNavigate } from 'react-router-dom';
-import { PieChart, BarChart, LineChart, Pie, Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
-import { LayoutDashboard, Book as BookIcon, BarChart as BarChartIcon, Layers as LayersIcon, GraduationCap as GraduationCapIcon, Receipt as ReceiptIcon, LogOut } from 'lucide-react';
+import {
+  PieChart,
+  BarChart,
+  LineChart,
+  Pie,
+  Bar,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  Cell
+} from 'recharts';
+import {
+  LayoutDashboard,
+  Book as BookIcon,
+  BarChart as BarChartIcon,
+  Layers as LayersIcon,
+  GraduationCap as GraduationCapIcon,
+  Receipt as ReceiptIcon,
+  LogOut
+} from 'lucide-react';
 import Categorias from './Categorias';
+
 // Datos estáticos
 const subjectColors = {
   'Inglés': '#4a7dff',
@@ -22,7 +46,7 @@ const subjectColors = {
 };
 
 const subjectData = [
-  { name: 'Matemáticas', value: 300},
+  { name: 'Matemáticas', value: 300 },
   { name: 'Historia', value: 250 },
   { name: 'Física', value: 200 },
   { name: 'Química', value: 150 },
@@ -74,6 +98,7 @@ const Sidebar = ({ activeView, setActiveView, navigate }) => (
   </SidebarContainer>
 );
 
+// (opcional) componentes de gráficas estáticas
 const PieChartComponent = () => (
   <Card>
     <CardHeader>
@@ -150,31 +175,38 @@ const Dashboard = () => {
         <Header>
           <HeaderTitle>PANEL ADMINISTRATIVO</HeaderTitle>
         </Header>
+
+        {/* 👇 Aquí va el SupersetAdmin a pantalla de contenido completa */}
         {activeView === 'graficas' && (
-          <Content>
+          <FullContent>
             <SupersetAdmin />
-          </Content>
+          </FullContent>
         )}
+
         {activeView === 'gestion' && (
           <Content>
             <Gestion />
           </Content>
         )}
+
         {activeView === 'nivel' && (
           <Content>
             <Nivel />
           </Content>
         )}
+
         {activeView === 'grados' && (
           <Content>
             <Grados />
           </Content>
         )}
+
         {activeView === 'historial' && (
           <Content>
             <Historial />
           </Content>
         )}
+
         {activeView === 'categorias' && (
           <Content>
             <Categorias />
@@ -187,11 +219,12 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-// Styled Components
+/* ================== styled-components layout ================== */
+
 const Container = styled.div`
   display: flex;
   height: 100vh;
-  width: 100%; 
+  width: 100%;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 `;
@@ -248,7 +281,10 @@ const Button = styled.button`
   width: 100%;
   padding: 12px 15px;
   margin-bottom: 10px;
-  background: ${(props) => (props.active ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)' : 'rgba(255, 255, 255, 0.1)')};
+  background: ${(props) =>
+    props.active
+      ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)'
+      : 'rgba(255, 255, 255, 0.1)'};
   border: 2px solid ${(props) => (props.active ? '#f97316' : 'transparent')};
   color: white;
   cursor: pointer;
@@ -257,10 +293,14 @@ const Button = styled.button`
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.3px;
-  box-shadow: ${(props) => (props.active ? '0 4px 15px rgba(249, 115, 22, 0.4)' : 'none')};
+  box-shadow: ${(props) =>
+    props.active ? '0 4px 15px rgba(249, 115, 22, 0.4)' : 'none'};
 
   &:hover {
-    background: ${(props) => (props.active ? 'linear-gradient(135deg, #ea580c 0%, #c2410c 100%)' : 'rgba(255, 255, 255, 0.2)')};
+    background: ${(props) =>
+      props.active
+        ? 'linear-gradient(135deg, #ea580c 0%, #c2410c 100%)'
+        : 'rgba(255, 255, 255, 0.2)'};
     transform: translateX(5px);
     box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
   }
@@ -268,7 +308,7 @@ const Button = styled.button`
   @media (max-width: 768px) {
     justify-content: center;
     padding: 10px;
-    
+
     span {
       display: none;
     }
@@ -314,6 +354,7 @@ const HeaderTitle = styled.h1`
   }
 `;
 
+/* Grid para las vistas con tarjetas (no Superset) */
 const Content = styled.div`
   flex: 1;
   padding: 2rem;
@@ -324,13 +365,21 @@ const Content = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
-  
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     padding: 1rem;
     gap: 1.5rem;
   }
+`;
+
+/* Contenedor especial para el dashboard embebido */
+const FullContent = styled.div`
+  flex: 1;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
 `;
 
 const Card = styled.div`
@@ -340,7 +389,6 @@ const Card = styled.div`
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
   transition: all 0.4s ease;
   border: 2px solid transparent;
-  
 
   &:hover {
     transform: translateY(-8px) scale(1.02);
@@ -352,7 +400,6 @@ const Card = styled.div`
 const CardHeader = styled.div`
   background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
   padding: 1.5rem;
-
   border-bottom: 3px solid #6d28d9;
 `;
 
@@ -364,7 +411,6 @@ const CardTitle = styled.h3`
   text-align: center;
   letter-spacing: 0.5px;
   text-transform: uppercase;
- 
 
   @media (max-width: 768px) {
     font-size: 1.1rem;
@@ -373,7 +419,6 @@ const CardTitle = styled.h3`
 
 const ChartContainer = styled.div`
   padding: 1.5rem;
-
   background: linear-gradient(135deg, #fefefe 0%, #f8fafc 100%);
   display: flex;
   justify-content: center;
