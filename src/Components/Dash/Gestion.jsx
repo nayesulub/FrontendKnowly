@@ -12,10 +12,9 @@ import {
   X,
   Crown
 } from 'lucide-react';
-import { API_ENDPOINTS } from '../../utils/config';
 
-const API_URL = API_ENDPOINTS.ASIGNATURAS;
-const CATEGORIAS_API = API_ENDPOINTS.CATEGORIAS;
+const API_URL = 'http://localhost:8000/api/asignaturas';
+const CATEGORIAS_API = 'http://localhost:8000/api/categorias';
 
 const Gestion = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);        // agregar

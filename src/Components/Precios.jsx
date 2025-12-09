@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import { Check, X, Crown, Zap, Shield, Star, User, LogOut } from 'lucide-react';
-import { API_BASE_URL } from '../utils/config';
 
 export function Precios() {
   const navigate = useNavigate();
@@ -10,6 +9,8 @@ export function Precios() {
   const [loading, setLoading] = useState(true);
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef(null);
+
+  const API_BASE_URL = "http://localhost:8000/api";
 
   const getAuthHeaders = () => {
     const token = localStorage.getItem("token");

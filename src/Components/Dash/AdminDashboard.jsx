@@ -1,182 +1,107 @@
-// src/Components/Dash/AdminDashboard.jsx
-import React from "react";
-import styled from "styled-components";
-import { LayoutDashboard, Users, Clock, Activity, LogOut } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import KnowlyDashboard from "../KnowlyDash";
+import React, { useEffect, useRef, useState } from "react";
+import Master from "../components/Master";
+import { embedDashboard } from "@superset-ui/embedded-sdk";
+import api from "../api/client";
+import { Buffer } from "buffer";
 
-export default function AdminDashboard() {
-  const navigate = useNavigate();
+// Polyfill de Buffer para el SDK de Superset
+if (typeof window !== "undefined") {
+  window.Buffer = window.Buffer || Buffer;
+}
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/Login");
-  };
+function AdminDashboard() {
+  const containerRef = useRef(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const goHome = () => {
-    navigate("/HomeLog");
-  };
+  useEffect(() => {
+    let cancel = false;
+
+    const loadDashboard = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        console.log("📡 Pidiendo guest token a Laravel...");
+        console.log("🔍 Axios baseURL:", api.defaults.baseURL);
+
+        // Usa la MISMA ruta que te funcionó antes
+        const res = await api.get("api/superset/guest-token");
+
+        console.log("✔ Respuesta backend Superset:", res.data);
+
+        const { token, superset_domain, dashboard_id } = res.data;
+
+        if (!token || !superset_domain || !dashboard_id) {
+          throw new Error("Respuesta incompleta del backend");
+        }
+
+        if (!containerRef.current) {
+          throw new Error("El contenedor aún no está montado");
+        }
+
+        console.log("📊 Embedding dashboard con:", {
+          dashboard_id,
+          superset_domain,
+        });
+
+        await embedDashboard({
+          id: dashboard_id,
+          supersetDomain: superset_domain,
+          mountPoint: containerRef.current,
+          fetchGuestToken: async () => token,
+          dashboardUiConfig: {
+            hideTitle: false,
+            hideChartControls: true,
+          },
+        });
+
+        console.log("✅ Dashboard embebido correctamente");
+
+        if (!cancel) setLoading(false);
+      } catch (err) {
+        console.error("❌ Error cargando dashboard de Superset:", err);
+
+        // Si viene de axios
+        if (err.response) {
+          setError(
+            `Error en el backend (${err.response.status}). Revisa la URL /api/superset/guest-token y el backend.`
+          );
+        } else if (err.request) {
+          setError(
+            "No se pudo contactar al backend. Revisa que Laravel esté encendido y la URL sea correcta."
+          );
+        } else {
+          // Errores de embedDashboard u otros
+          setError(
+            `Error cargando el dashboard de Superset: ${err.message || err}`
+          );
+        }
+
+        if (!cancel) setLoading(false);
+      }
+    };
+
+    loadDashboard();
+
+    return () => {
+      cancel = true;
+    };
+  }, []);
 
   return (
-    <PageContainer>
-      {/* SIDEBAR */}
-      <Sidebar>
-        <SidebarHeader onClick={goHome}>
-          <LogoText>Knowly Admin</LogoText>
-        </SidebarHeader>
+    <Master>
+      <div className="superset-page">
+        <h2 className="titulo-superset">Dashboard de Superset</h2>
 
-        <SidebarSectionTitle>Panel</SidebarSectionTitle>
-        <SidebarItem active>
-          <LayoutDashboard size={18} />
-          <span>Dashboard</span>
-        </SidebarItem>
+        {loading && <p>Cargando dashboard...</p>}
 
-        <SidebarItem>
-          <Users size={18} />
-          <span>Usuarios</span>
-        </SidebarItem>
+        {error && <div className="alerta-error">{error}</div>}
 
-        <SidebarItem>
-          <Activity size={18} />
-          <span>Actividad</span>
-        </SidebarItem>
-
-        <SidebarFooter onClick={handleLogout}>
-          <LogOut size={18} />
-          <span>Cerrar sesión</span>
-        </SidebarFooter>
-      </Sidebar>
-
-      {/* CONTENIDO CENTRAL */}
-      <MainContent>
-        <TopBar>
-          <TopTitle>Panel administrativo</TopTitle>
-          <TopInfo>
-            <Clock size={16} />
-            <span>Vista en tiempo real</span>
-          </TopInfo>
-        </TopBar>
-
-        {/* AQUÍ VIVE SUPERTSET, A PANTALLA COMPLETA DENTRO DE LA PLANTILLA */}
-        <SupersetWrapper>
-          <KnowlyDashboard />
-        </SupersetWrapper>
-      </MainContent>
-    </PageContainer>
+        <div className="superset-wrapper" ref={containerRef}></div>
+      </div>
+    </Master>
   );
 }
 
-/* ========== styled-components ========== */
-
-const PageContainer = styled.div`
-  display: flex;
-  min-height: 100vh;
-  background: #f3f4f6;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-`;
-
-const Sidebar = styled.aside`
-  width: 260px;
-  background: linear-gradient(180deg, #7c3aed, #a855f7);
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem 1.25rem;
-  gap: 0.75rem;
-`;
-
-const SidebarHeader = styled.div`
-  font-weight: 800;
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-  cursor: pointer;
-`;
-
-const LogoText = styled.span`
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-`;
-
-const SidebarSectionTitle = styled.div`
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  opacity: 0.8;
-  margin-top: 0.5rem;
-  margin-bottom: 0.25rem;
-`;
-
-const SidebarItem = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.55rem 0.75rem;
-  border-radius: 10px;
-  border: none;
-  background: ${({ active }) =>
-    active ? "rgba(255,255,255,0.18)" : "transparent"};
-  color: #f9fafb;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.15s ease, transform 0.1s ease;
-
-  &:hover {
-    background: ${({ active }) =>
-      active ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.12)"};
-    transform: translateY(-1px);
-  }
-
-  svg {
-    flex-shrink: 0;
-  }
-`;
-
-const SidebarFooter = styled(SidebarItem)`
-  margin-top: auto;
-  background: rgba(15, 23, 42, 0.25);
-
-  &:hover {
-    background: rgba(15, 23, 42, 0.35);
-  }
-`;
-
-const MainContent = styled.main`
-  flex: 1;
-  padding: 1.5rem 1.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const TopBar = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const TopTitle = styled.h1`
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #111827;
-`;
-
-const TopInfo = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.85rem;
-  color: #6b7280;
-  padding: 0.35rem 0.7rem;
-  border-radius: 999px;
-  background: #e5e7eb;
-`;
-
-const SupersetWrapper = styled.div`
-  margin-top: 0.75rem;
-  flex: 1;
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.08);
-  padding: 0;               /* Superset ya organiza su propio contenido */
-  overflow: hidden;         /* para que no salgan barras raras */
-  height: calc(100vh - 110px);
-`;
+export default AdminDashboard;
