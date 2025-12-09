@@ -86,10 +86,10 @@ const DashboardContainer = styled.div`
   max-width: 950px;   /* 🔥 más chico */
   height: 80vh;
   margin: 1.5rem auto 2rem;
-  background: #0f172a;
+  background: rgba(255, 255, 255, 1);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 1);
 
   iframe {
     width: 100% !important;
